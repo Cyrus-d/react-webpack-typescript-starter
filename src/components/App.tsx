@@ -1,19 +1,37 @@
 import * as React from "react";
-import "./../assets/scss/App.scss";
+import { render } from "react-dom";
+import { produce } from "immer";
 
-const reactLogo = require("./../assets/img/react_logo.svg");
-
-export interface AppProps {
+interface IState {
+    count: number;
 }
 
-export default class App extends React.Component<AppProps, undefined> {
+class App extends React.Component<{}, IState> {
+    state: IState = {
+        count: 0
+    };
+
+    handleClick = () => {
+        this.setState(
+            produce((draft) => {
+                draft.count = draft.count + 1;
+            })
+        );
+    }
+
     render() {
         return (
-            <div className="app">
-                <h1>Hello World!</h1>
-                <p>Foo to the barz</p>
-                <img src={reactLogo} height="480"/>
+            <div>
+                <button title="decrement" onClick={this.handleClick}>
+                    -
+        </button>
+                {this.state.count}
+                <button title="increment" onClick={this.handleClick}>
+                    +
+        </button>
             </div>
         );
     }
 }
+
+export { App };
